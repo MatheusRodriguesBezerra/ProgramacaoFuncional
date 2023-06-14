@@ -1,0 +1,158 @@
+*9.1*
+
+x + (y + z) = (x + y) + z
+
+por indução em x
+
+caso base 
+
+Zero + (y + z) = (Zero + y) + z
+
+<=> { +.1 dos dois lados }
+
+y + z = y + z   qed
+
+passo indutivo
+
+Hind := x + (y + z) = (x + y) + z
+
+Tese: (Succ x) + (y + z) = (Succ x + y) + z
+
+<=> { +.2 dos dois lados }
+
+Succ (x + (y + z)) = (Succ (x+y)) + z
+
+<=> { +.2 do lado direito }
+
+Succ (x + (y + z)) = Succ ((x + y) + z )
+
+
+
+
+*9.2*
+
+(xs ++ ys) ++ zs = xs ++ (ys ++ zs)
+
+por indução em xs
+
+caso base
+
+([] ++ ys) ++ zs = [] ++ (ys ++ zs)
+
+<=> { ++.1 dos dois lados }
+
+ys + zs = ys + zs   qed
+
+Hind := xs ++ (ys ++ zs) = (xs ++ ys) ++ zs
+
+Tese: (x:xs) ++ (ys ++ zs) = ((x:xs) ++ ys) ++ zs
+
+<=> { ++.2 dos dois lados }
+
+(x:(xs ++ ys)) ++ zs = (x:(xs ++ ys)) ++ zs
+
+<=> { +.2 do lado direito }
+
+x:(xs ++ (ys ++ zs)) = x:(xs ++ (ys ++ zs))
+
+
+
+
+*9.3*
+
+reverse (xs++ys) = reverse ys ++ reverse xs
+
+por indução em xs
+
+reverse ([] ++ ys) = reverse ys ++ reverse []
+
+<=> { ++.1 dos dois lados }
+
+reverse ys = reverse ys     qed
+
+Tese: reverse ((x:xs) ++ ys) = reverse ys ++ reverse (x:xs)
+
+<=> { ++.2 do lado esquerdo }
+
+reverse (x:(xs ++ ys)) = reverse ys ++ reverse (x:xs)
+
+<=> { reverse.2 dos dois lados }
+
+reverse (xs ++ ys) ++ [x] = reverse ys ++ (reverse xs ++ [x])
+
+<=> Hind
+
+(reverse ys ++ reverse xs) ++ [x] = reverse ys ++ (reverse xs ++ [x])
+
+<=> { associatividade de ++ }
+
+reverse ys ++ (reverse xs ++ [x]) = reverse ys ++ (reverse xs ++ [x])
+
+
+
+
+*9.4*
+
+map f (map g xs) = map (f g) xs
+
+por indução em xs
+
+map f (map g []) = map (f g) []
+
+<=> { ++.1 dos dois lados }
+
+map f [] = map (f g) []
+
+<=> { ++.1 dos dois lados }
+
+[] = []		solucionado!
+
+Hind := map f (map g xs) = map (f ° g) xs
+
+tese := map f (map g (x:xs)) = map f (g (x:xs))
+
+<=> { map.2 dos dois lados }
+
+map f (g x:map g xs) = map f (g x:(g xs))
+
+<=> { .map2 nos dois lados }
+
+map f g x: map f (map g xs) = map f g x: map f (g xs)
+
+<=> { .Hind }
+
+map f g x: map f (g xs) = map f g x: map f (g xs)
+
+
+
+
+
+
+
+*9.5*
+
+take n xs ++ drop n xs = xs
+
+caso base
+
+take 0 xs ++ drop 0 xs = xs
+
+<=> { take.1 e drop.1 na esquerda }
+
+[] ++ xs = xs
+
+<=> { concatenação }
+
+xs = xs 	solucionado!
+
+Hind := take n xs ++ drop n xs = xs
+
+Tese := take (n+1) (x:xs) ++ drop (n+1) (x:xs) = (x:xs)
+
+<=> { take.3 e drop.3 na esquerda }
+
+x:take n xs ++ drop n xs = (x:xs)
+
+<=> { Hind }
+
+(x:xs) = (x:xs)
