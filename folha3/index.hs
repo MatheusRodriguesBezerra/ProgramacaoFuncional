@@ -1,88 +1,98 @@
--- questao 1
+import Data.Char
+
+-- 3.1
 divprop :: Integer -> [Integer]
-divprop n = [ x | x<-[1..n], n `mod` x == 0 && n /= x]
+divprop n = [x | x<-[1..n-1], n `mod` x == 0]
 
--- questao 2
+-- 3.2
 perfeitos :: Integer -> [Integer]
-perfeitos n = [ x | x<-[1..n-1], x == sum(divprop x)]
+perfeitos n = [x | x<-[1..n], sum (divprop (x)) == x]
 
--- questao 3
+-- 3.3
 pitagoricos :: Integer -> [(Integer ,Integer ,Integer)]
-pitagoricos n = [ (x,y,z) | x<-[1..n], y<-[1..n], z<-[1..n], x*x + y*y == z*z]
+pitagoricos n = [(x,y,z) | x<-[1..n], y<-[1..n], z<-[1..n], (x*x) + (y*y) == (z*z)]
 
--- questao 4
+-- 3.4
 primo :: Integer -> Bool
-primo n | divprop n == [1] = True
+primo n
+        | divprop(n) == [1] = True
         | otherwise = False
 
--- questao 7a
-myand :: [Bool] -> Bool
-myand [] = True
-myand [True] = True
-myand [False] = False
-myand (x:xs) = x && myand xs 
+-- 3.5
 
--- questao 7b
+
+
+-- 3.6
+-- type Rel [x] [(y,z)] = ([Int], [(Int,Int)])
+
+-- 3.6a)
+
+
+
+-- 3.7 a)
+myand :: [Bool] -> Bool
+myand [] = True 
+myand (x:xs)
+        | x == False = False
+        | otherwise = myand xs
+
+-- 3.7 b)
 myor :: [Bool] -> Bool
 myor [] = False
-myor [True] = True
-myor [False] = False
-myor (x:xs) = x || myor xs 
+myor (x:xs)
+        | x == True = True
+        | otherwise = myor xs
 
--- questao 7c
-myconcat :: [[a]] -> [a]
+-- 3.7c)
+myconcat ::[[a]] -> [a]
 myconcat [] = []
 myconcat (x:xs) = x ++ myconcat xs
 
--- questao 7d
-myreplicate :: Int -> a -> [a]
-myreplicate 0 _ = []
-myreplicate x a = [a] ++ myreplicate (x-1) a
+-- 3.7d)
+myreplicate :: Int -> a -> [a] 
+myreplicate 0 a = []
+myreplicate n a = [a] ++ myreplicate (n-1) a 
 
--- questao 7e 
-my7e :: [a] -> Int -> a
-my7e xs 1 = head xs
-my7e (_:xs) n = my7e xs (n-1)
+-- 3.7e)
+myrets :: [a] -> Int -> a
+myrets (x:xs) 1 = x
+myrets (x:xs) n = myrets (xs) (n-1)
 
-
--- questao 7f
+-- 3.7f)
 myelem :: Eq a => a -> [a] -> Bool
-myelem _ [] = False
-myelem a (x:xs) 
-        | a == x = True
-        | otherwise = myelem a xs
+myelem x [] = False
+myelem x (y:ys)
+        | x == y = True
+        | otherwise = myelem x ys
 
+-- 3.9
+minuscula :: String -> Bool
+minuscula [] = False
+minuscula (x:xs)
+        | isLower x = True
+        | otherwise = minuscula xs
 
--- quesao 9
-forte :: String -> Bool
-forte a = mais8 a && maiuscula'' a && minuscula'' a && algarismo a
+maiuscula :: String -> Bool
+maiuscula [] = False
+maiuscula (x:xs)
+        | isUpper x = True
+        | otherwise = maiuscula xs
 
-
-maiuscula'' :: String -> Bool
-maiuscula'' [] = False
-maiuscula'' (x:xs)
-        | x >= 'A' && x <= 'Z' = True
-        | otherwise = maiuscula'' xs
-
-minuscula'' :: String -> Bool
-minuscula'' [] = False
-minuscula'' (x:xs)
-        | x >= 'a' && x <= 'z' = True
-        | otherwise = minuscula'' xs
-
-mais8 :: String -> Bool
-mais8 x 
-        | length x >= 8 = True
-        | otherwise = False 
-
-algarismo :: String -> Bool
-algarismo [] = False
-algarismo (x:xs)
+numero :: String -> Bool
+numero [] = False
+numero (x:xs)
         | x >= '0' && x <= '9' = True
-        | otherwise = algarismo xs
+        | otherwise = numero xs
 
+forte :: String -> Bool
+forte xs = myand[minuscula xs, maiuscula xs, numero xs, length(xs) > 7]
 
--- questao 12
+-- 3.11
+--mynub :: Eq a => [a] -> [a]
+--my
+
+-- 3.12
 intersperse :: a -> [a] -> [a]
-intersperse _ [] = []
-intersperse a (x:xs) = [x] ++ [a] ++ intersperse a xs 
+intersperse a [] = []
+intersperse a [x] = [x]
+intersperse a (x:xs) = [x] ++ [a] ++ intersperse a xs
