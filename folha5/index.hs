@@ -1,51 +1,34 @@
--- questao 1
-divisores :: Int -> [Int]
-divisores n = filter (\x->n `mod` x == 0) [1..(n-1)]
+-- 5.1
+divisores :: Integer -> [Integer]
+divisores n = filter (\i-> n `mod` i == 0) [1..n]
 
 
--- questao 2
---primo :: Integer -> Bool
+-- 5.9i)
+aproxPi1 :: Int -> Double
+aproxPi1 n = aproxPi1Aux (num n) (den n)
+
+aproxPi1Aux :: [Double] -> [Double] -> Double
+aproxPi1Aux [] [] = 0
+aproxPi1Aux (x:xs) (y:ys) = (x/y) + aproxPi1Aux xs ys
 
 
+num :: Int -> [Double]
+num n = take n (iterate ((-1)*) 4) 
 
--- questao 3a
-qs3a' :: [a] -> [a] -> [a]
-qs3a' xs ys = xs ++ ys
-
-qs3a :: [a] -> [a] -> [a]
-qs3a xs ys = foldr (:) ys xs
-
-
--- questao 3b
-concat'' :: [[a]] -> [a]
-concat'' [] = []
-concat'' (x:xs) = x ++ concat'' xs
-
---concat' :: [[a]] -> [a]
---concat' xs = foldr (:) xs
+den :: Int -> [Double]
+den n = take n (iterate (+2) 1)
+    
+-- 5.9ii)
+aproxPi2 :: Int -> Double
+aproxPi2 n = 3 + (aproxPi2Aux (num (n-1)) (den2 (n-1)))
 
 
--- questao 3c
-reverse3c :: [a] -> [a]
-reverse3c [] = []
-reverse3c (x:xs) = reverse3c xs ++ [x]
+aproxPi2Aux :: [Double] -> [Double] -> Double
+aproxPi2Aux [] [] = 0
+aproxPi2Aux (x:xs) (y:ys) = (x/y) + aproxPi2Aux xs ys
 
+den2 :: Int -> [Double]
+den2 n = take n (fat 2)
 
--- questao 3d
-
-
--- questao 3e
-elem' :: Eq a => a -> [a]-> Bool
-elem' _ [] = False
-elem' n (x:xs) 
-    | n == x = True
-    | otherwise = elem' n xs
-
-elem'' :: Eq a => a -> [a]-> Bool
-elem'' n (x:xs) = any (\y->y == n) xs 
-
-
--- questao 6
-
-
--- questao 7
+fat :: Double -> [Double]
+fat n = [n*(n+1)*(n+2)] ++ fat (n+2)

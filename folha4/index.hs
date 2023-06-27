@@ -28,16 +28,16 @@ mdc a b = mdc b (a `mod` b)
 
 
 -- 4.5a)
-myinsert :: Ord a => a -> [a] -> [a]
-myinsert n [] = [n]
-myinsert n (x:xs)
+insert :: Ord a => a -> [a] -> [a]
+insert n [] = [n]
+insert n (x:xs)
     | n <= x = [n, x] ++ xs
-    | otherwise = [x] ++ myinsert n xs
+    | otherwise = [x] ++ insert n xs
 
 -- 4.5b)
-mysort :: Ord a => [a] -> [a]
-mysort [] = []
-mysort (x:xs) = myinsert x (mysort xs)
+sort :: Ord a => [a] -> [a]
+sort [] = []
+sort (x:xs) = insert x (sort xs)
 
 
 -- 4.6a)
